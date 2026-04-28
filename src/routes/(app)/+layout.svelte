@@ -394,7 +394,7 @@
 {#if $user}
 	<div class="app relative">
 		<div
-			class=" text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-900 h-screen max-h-[100dvh] overflow-auto flex flex-row justify-end"
+			class="text-gray-700 dark:text-gray-100 bg-[#262626] h-screen max-h-[100dvh] overflow-auto flex flex-row justify-end"
 		>
 			{#if !['user', 'admin'].includes($user?.role)}
 				<AccountPending />
@@ -402,7 +402,7 @@
 				{#if localDBChats.length > 0}
 					<div class="fixed w-full h-full flex z-50">
 						<div
-							class="absolute w-full h-full backdrop-blur-md bg-white/20 dark:bg-gray-900/50 flex justify-center"
+							class="absolute w-full h-full backdrop-blur-md bg-white/20 dark:bg-[#262626]/80 flex justify-center"
 						>
 							<div class="m-auto pb-44 flex flex-col justify-center">
 								<div class="max-w-md">
@@ -411,18 +411,19 @@
 										{$i18n.t('Action Required for Chat Log Storage')}
 									</div>
 
-									<div class=" mt-4 text-center text-sm dark:text-gray-200 w-full">
+									<div class="mt-4 text-center text-sm dark:text-gray-200 w-full">
 										{$i18n.t(
 											"Saving chat logs directly to your browser's storage is no longer supported. Please take a moment to download and delete your chat logs by clicking the button below. Don't worry, you can easily re-import your chat logs to the backend through"
 										)}
-										<span class="font-medium dark:text-white"
-											>{$i18n.t('Settings')} > {$i18n.t('Chats')} > {$i18n.t('Import Chats')}</span
-										>. {$i18n.t(
+										<span class="font-medium dark:text-white">
+											{$i18n.t('Settings')} > {$i18n.t('Chats')} > {$i18n.t('Import Chats')}
+										</span>.
+										{$i18n.t(
 											'This ensures that your valuable conversations are securely saved to your backend database. Thank you!'
 										)}
 									</div>
 
-									<div class=" mt-6 mx-auto relative group w-fit">
+									<div class="mt-6 mx-auto relative group w-fit">
 										<button
 											class="relative z-20 flex px-5 py-2 rounded-full bg-white border border-gray-100 dark:border-none hover:bg-gray-100 transition font-medium text-sm"
 											on:click={async () => {
@@ -456,12 +457,26 @@
 
 				<Sidebar />
 
+				<div class="absolute inset-0 z-0 bg-[#262626] pointer-events-none"></div>
+
+				<div
+					class="absolute top-4 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-zinc-300 px-4 py-1.5 text-xs font-semibold text-black shadow-md ring-1 ring-zinc-400/60"
+				>
+					Freiheit Media • Local Test
+				</div>
+
 				{#if loaded}
-					<slot />
+					<div
+						class="relative z-10 w-full flex-1 h-full bg-[#262626] flex items-center justify-center {$showSidebar
+							? ' md:max-w-[calc(100%-var(--sidebar-width))]'
+							: ' '}"
+					>
+						<slot />
+					</div>
 				{:else}
 					<div
-						class="w-full flex-1 h-full flex items-center justify-center {$showSidebar
-							? '  md:max-w-[calc(100%-var(--sidebar-width))]'
+						class="relative z-10 w-full flex-1 h-full bg-[#262626] flex items-center justify-center {$showSidebar
+							? ' md:max-w-[calc(100%-var(--sidebar-width))]'
 							: ' '}"
 					>
 						<Spinner className="size-5" />
@@ -471,47 +486,3 @@
 		</div>
 	</div>
 {/if}
-
-<style>
-	.loading {
-		display: inline-block;
-		clip-path: inset(0 1ch 0 0);
-		animation: l 1s steps(3) infinite;
-		letter-spacing: -0.5px;
-	}
-
-	@keyframes l {
-		to {
-			clip-path: inset(0 -1ch 0 0);
-		}
-	}
-
-	pre[class*='language-'] {
-		position: relative;
-		overflow: auto;
-
-		/* make space  */
-		margin: 5px 0;
-		padding: 1.75rem 0 1.75rem 1rem;
-		border-radius: 10px;
-	}
-
-	pre[class*='language-'] button {
-		position: absolute;
-		top: 5px;
-		right: 5px;
-
-		font-size: 0.9rem;
-		padding: 0.15rem;
-		background-color: #828282;
-
-		border: ridge 1px #7b7b7c;
-		border-radius: 5px;
-		text-shadow: #c4c4c4 0 0 2px;
-	}
-
-	pre[class*='language-'] button:hover {
-		cursor: pointer;
-		background-color: #bcbabb;
-	}
-</style>
